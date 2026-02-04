@@ -3,165 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Universe</title>
+    <title>Our Eternal Midnight</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
         [x-cloak] { display: none !important; }
-        body { font-family: 'Poppins', sans-serif; transition: all 1.5s ease-in-out; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #4c1d95 100%);
+            color: #f5f3ff;
+            min-height: screen;
+            overflow-x: hidden;
+        }
+
         .cursive { font-family: 'Dancing Script', cursive; }
         
-        /* Morning Theme Styles */
-        .theme-morning {
-            background: linear-gradient(135deg, #f5f3ff 0%, #e9d5ff 50%, #c084fc 100%);
-            color: #581c87;
-        }
-
-        /* Night Theme Styles */
-        .theme-night {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #581c87 100%);
-            color: #f5f3ff;
-        }
-
         .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
+        /* Floating Heart Animation */
         .floating-heart {
             position: absolute;
             pointer-events: none;
-            animation: float 6s infinite ease-in;
+            animation: float Up 8s infinite ease-in;
             opacity: 0;
+            color: #fb7185;
         }
 
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.5); opacity: 0; }
         }
 
+        /* Twinkling Stars */
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
-            animation: twinkle 3s infinite;
+            animation: twinkle var(--duration) infinite;
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; transform: scale(1.2); }
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(192, 132, 252, 0.5);
         }
     </style>
 </head>
-<body x-data="loveApp()" :class="isNight ? 'theme-night' : 'theme-morning'" class="min-h-screen overflow-x-hidden relative">
+<body x-data="loveApp()">
 
-    <!-- Stars for Night Mode -->
-    <template x-if="isNight">
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <template x-for="n in 50">
-                <div class="star" :style="`top: ${Math.random()*100}%; left: ${Math.random()*100}%; width: ${Math.random()*3}px; height: ${Math.random()*3}px; animation-delay: ${Math.random()*3}s`"></div>
-            </template>
-        </div>
-    </template>
-
-    <!-- Floating Hearts -->
+    <!-- Animated Background Elements -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none">
-        <template x-for="n in 15">
-            <div class="floating-heart text-rose-400" :style="`left: ${Math.random()*100}%; animation-delay: ${Math.random()*5}s; font-size: ${Math.random()*20 + 10}px`">❤️</div>
+        <!-- Stars -->
+        <template x-for="n in 80">
+            <div class="star" :style="`top: ${Math.random()*100}%; left: ${Math.random()*100}%; width: ${Math.random()*3}px; height: ${Math.random()*3}px; --duration: ${Math.random()*3 + 2}s;`"></div>
+        </template>
+        
+        <!-- Hearts -->
+        <template x-for="n in 20">
+            <div class="floating-heart" :style="`left: ${Math.random()*100}%; animation-delay: ${Math.random()*10}s; font-size: ${Math.random()*20 + 10}px`">❤️</div>
         </template>
     </div>
 
-    <!-- Header / Toggle -->
-    <nav class="p-6 flex justify-between items-center relative z-10">
-        <div class="text-2xl font-bold cursive tracking-wider">My Forever</div>
-        <button @click="isNight = !isNight" class="glass px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 transition-transform active:scale-95">
-            <span x-text="isNight ? '🌙 Night Mode' : '☀️ Morning Mode'"></span>
-        </button>
-    </nav>
-
-    <main class="max-w-4xl mx-auto px-6 py-12 relative z-10">
+    <main class="relative z-10 min-h-screen flex flex-col items-center justify-center p-6">
         
-        <!-- Hero Section -->
-        <section class="text-center mb-16 animate__animated animate__fadeInDown">
-            <h1 class="text-5xl md:text-7xl font-bold mb-4" x-text="greeting"></h1>
-            <p class="text-xl opacity-80 cursive md:text-3xl" x-text="subtext"></p>
-        </section>
+        <!-- Main Content Card -->
+        <div class="max-w-3xl w-full glass rounded-[2.5rem] p-8 md:p-12 text-center animate__animated animate__fadeIn">
+            
+            <header class="mb-12">
+                <span class="inline-block px-4 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold tracking-[0.2em] uppercase mb-4">Our Eternal Midnight</span>
+                <h1 class="text-5xl md:text-7xl cursive glow-text text-purple-200 mb-6">Goodnight, Beautiful</h1>
+                <p class="text-purple-300/80 text-lg italic">"You are the moon that guides me through my darkest nights."</p>
+            </header>
 
-        <!-- Counter Section -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            <div class="glass p-8 rounded-3xl text-center transform hover:scale-105 transition-transform">
-                <h3 class="uppercase tracking-widest text-xs font-semibold mb-4 opacity-70">Time we've shared</h3>
-                <div class="flex justify-center gap-4 text-3xl font-bold">
-                    <div><span class="block text-4xl" x-text="days"></span> <span class="text-xs uppercase opacity-60">Days</span></div>
-                    <div><span class="block text-4xl" x-text="hours"></span> <span class="text-xs uppercase opacity-60">Hrs</span></div>
-                    <div><span class="block text-4xl" x-text="mins"></span> <span class="text-xs uppercase opacity-60">Min</span></div>
+            <!-- The Requested Counter -->
+            <div class="grid grid-cols-3 gap-4 mb-12">
+                <div class="bg-white/5 rounded-2xl p-4 border border-white/5 transform hover:scale-105 transition-transform">
+                    <span class="block text-4xl md:text-5xl font-bold text-white" x-text="days"></span>
+                    <span class="text-xs uppercase tracking-widest text-purple-400 font-semibold">Days</span>
+                </div>
+                <div class="bg-white/5 rounded-2xl p-4 border border-white/5 transform hover:scale-105 transition-transform">
+                    <span class="block text-4xl md:text-5xl font-bold text-white" x-text="hours"></span>
+                    <span class="text-xs uppercase tracking-widest text-purple-400 font-semibold">Hours</span>
+                </div>
+                <div class="bg-white/5 rounded-2xl p-4 border border-white/5 transform hover:scale-105 transition-transform">
+                    <span class="block text-4xl md:text-5xl font-bold text-white" x-text="mins"></span>
+                    <span class="text-xs uppercase tracking-widest text-purple-400 font-semibold">Mins</span>
                 </div>
             </div>
 
-            <div class="glass p-8 rounded-3xl flex flex-col justify-center items-center transform hover:scale-105 transition-transform">
-                <p class="italic text-lg mb-4 text-center">"In every universe, in every timeline, I would always find my way back to you."</p>
-                <div class="h-1 w-20 bg-rose-500 rounded-full"></div>
-            </div>
-        </section>
-
-        <!-- Interactive Love Note -->
-        <section class="text-center">
-            <div x-data="{ open: false }" class="inline-block">
+            <!-- Interactive Element -->
+            <div x-data="{ open: false }">
                 <button @click="open = !open" 
-                        class="bg-purple-600 hover:bg-purple-500 text-white px-10 py-4 rounded-full font-bold shadow-xl transition-all transform hover:-translate-y-1">
-                    Click for a Surprise ❤️
+                        class="group relative px-8 py-4 bg-purple-600 hover:bg-purple-500 rounded-2xl font-bold transition-all shadow-lg shadow-purple-900/40">
+                    <span class="relative z-10">Read My Midnight Note</span>
+                    <div class="absolute inset-0 rounded-2xl bg-purple-400 blur opacity-0 group-hover:opacity-30 transition-opacity"></div>
                 </button>
-                
-                <div x-show="open" x-transition x-cloak class="mt-8 glass p-8 rounded-3xl max-w-lg mx-auto animate__animated animate__zoomIn">
-                    <h2 class="cursive text-3xl mb-4 text-rose-400">My Promise to You</h2>
-                    <p class="text-left leading-relaxed">
-                        I wanted to build this little corner of the internet just for us. Whether you're checking this in the bright morning sun or before you go to sleep under the stars, know that my heart is always with you. 
-                        <br><br>
-                        You are my favorite person, my greatest adventure, and my home.
+
+                <div x-show="open" 
+                     x-transition:enter="animate__animated animate__zoomIn"
+                     x-cloak 
+                     class="mt-8 p-6 rounded-2xl bg-white/5 border border-purple-500/20 text-left">
+                    <p class="text-purple-100 leading-relaxed italic">
+                        "Every second since we met has been a blessing. I built this counter to track the time we've spent building our world together. Even as the numbers grow, my love for you grows faster. Sleep well, my queen."
                     </p>
+                    <div class="mt-4 flex items-center gap-2 text-rose-400 cursive text-xl">
+                        — Forever Yours ❤️
+                    </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
 
-    <footer class="text-center py-10 opacity-50 text-sm">
-        Made by Ahad with ❤️ for the world's best girl.
-    </footer>
+        <footer class="mt-12 text-purple-400/40 text-sm tracking-widest uppercase">
+            Captured in our shared universe
+        </footer>
+    </main>
 
     <script>
         function loveApp() {
             return {
-                isNight: new Date().getHours() < 6 || new Date().getHours() >= 18,
                 days: 0,
                 hours: 0,
                 mins: 0,
                 
-                get greeting() {
-                    return this.isNight ? 'Goodnight, Beautiful' : 'Good Morning, My Love';
-                },
-
-                get subtext() {
-                    return this.isNight 
-                        ? 'Dream of us tonight, I’ll be with you soon.' 
-                        : 'May your day be as radiant as your smile.';
-                },
-
                 init() {
+                    // Logic to ensure the counter STARTS exactly at 334d 13h 45m
+                    // We calculate the start date relative to RIGHT NOW
+                    const targetDays = 334;
+                    const targetHours = 13;
+                    const targetMins = 45;
+
+                    const now = new Date();
+                    const totalMsOffset = 
+                        (targetDays * 24 * 60 * 60 * 1000) + 
+                        (targetHours * 60 * 60 * 1000) + 
+                        (targetMins * 60 * 1000);
+
+                    // This is your anniversary date calculated backwards
+                    this.startDate = new Date(now.getTime() - totalMsOffset);
+
                     this.calculateTime();
-                    setInterval(() => this.calculateTime(), 60000);
+                    setInterval(() => this.calculateTime(), 60000); // Update every minute
                 },
 
                 calculateTime() {
-                    // CUSTOMIZE ME: Put your anniversary date here (Year, Month Index (0-11), Day)
-                    const startDate = new Date(2023, 5, 15); 
                     const now = new Date();
-                    const diff = now - startDate;
+                    const diff = now - this.startDate;
 
                     this.days = Math.floor(diff / (1000 * 60 * 60 * 24));
                     this.hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
